@@ -1,5 +1,4 @@
 
-
 body {
   background-color: var(--background);
   color: var(--text-primary);
@@ -67,7 +66,7 @@ body {
   color: #fff;
 }
 
-.intro, .services, .comparison, .why, .conclusion {
+.intro, .services, .comparison, .why, .conclusion, .how-it-works, .social-media-advantage {
   padding: 5rem 2rem;
   text-align: center;
   background-color: var(--background);
@@ -89,10 +88,6 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card h3{
-  color: var(--primary);
-}
-
 .card:hover {
   transform: translateY(-8px);
   box-shadow: 0 10px 20px #00000020;
@@ -111,17 +106,22 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  border: 2px solid var(--primary);
+  text-align: start;
 }
 
 .comparison-grid > div {
   flex: 1;
 }
 
-.comparison-grid li, .why-points li {
-  list-style: none;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  text-align: left;
+@media (min-width: 768px) {
+  .comparison-grid {
+    flex-direction: row;
+  }
+
+  .comparison-grid > div:not(:last-child) {
+    border-right: 2px solid var(--primary);
+  }
 }
 
 .without li {
@@ -132,7 +132,6 @@ body {
   color: #388e3c;
   font-weight: bold;
 }
-
 
 .why-points {
   border-left: 4px solid var(--primary);
@@ -159,15 +158,25 @@ body {
   font-size: 0.9rem;
 }
 
-.link-login{
-  text-decoration: none;
-  color: #388e3c;
+.how-it-works ul, .social-media-advantage ul {
+  list-style: none;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0;
+  text-align: left;
 }
 
-@media (min-width: 768px) {
-    .comparison-grid {
-      flex-direction: row;
-      justify-content: center;
-      gap: 4rem;
-    }
+.how-it-works li, .social-media-advantage li {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.how-it-works li::before, .social-media-advantage li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
 }
