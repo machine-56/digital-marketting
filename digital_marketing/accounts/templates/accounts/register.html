@@ -1,0 +1,102 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'accounts/css/register.css' %}">
+<script src="{% static 'accounts/js/register.js' %}" defer></script>
+
+<div class="register-body"> <!-- applied background class here -->
+  <div class="register-overlay">
+    <div class="form-container">
+      <h2 class="text-center mb-4">Register</h2>
+
+      <form method="POST" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <div class="row g-3">
+          
+          <!-- First Name -->
+          <div class="col-md-6">
+            <label for="first_name">First Name</label>
+            <input type="text" name="first_name" class="form-control" required>
+            <span id="error-first_name" class="text-danger small"></span>
+          </div>
+
+          <!-- Last Name -->
+          <div class="col-md-6">
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" class="form-control" required>
+            <span id="error-last_name" class="text-danger small"></span>
+          </div>
+
+          <!-- Username -->
+          <div class="col-md-6">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" required>
+            <span id="error-username" class="text-danger small"></span>
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-6">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" required>
+            <span id="error-email" class="text-danger small"></span>
+          </div>
+
+          <!-- Phone -->
+          <div class="col-md-6">
+            <label for="phone">Phone</label>
+            <input type="text" name="phone" id="phone" class="form-control" required>
+            <span id="error-phone" class="text-danger small"></span>
+          </div>
+
+          <!-- Gender -->
+          <div class="col-md-6">
+            <label for="gender">Gender</label>
+            <select name="gender" class="form-select" required>
+              <option value="" disabled selected>Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+            <span id="error-gender" class="text-danger small"></span>
+          </div>
+
+          <!-- Role -->
+          <div class="col-md-6">
+            <label for="role">Role</label>
+            <select name="role" class="form-select" required>
+              <option value="" disabled selected>Select role</option>
+              <option value="business_analyst">Business Analyst</option>
+              <option value="dm_analyst">DM Analyst</option>
+            </select>
+            <span id="error-role" class="text-danger small"></span>
+          </div>
+
+          <!-- Company Name -->
+          <div class="col-md-6">
+            <label for="company_name">Company Name</label>
+            <input type="text" name="company_name" class="form-control">
+            <span id="error-company_name" class="text-danger small"></span>
+          </div>
+
+          <!-- Profile Image -->
+          <div class="col-md-12">
+            <label for="profile_image">Profile Image</label>
+            <input type="file" name="profile_image" class="form-control">
+            <span id="error-profile_image" class="text-danger small"></span>
+          </div>
+
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-primary">Register</button>
+          <span id="form-error" class="text-danger small d-block mt-2"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

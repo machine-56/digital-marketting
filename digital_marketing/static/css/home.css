@@ -1,0 +1,173 @@
+
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+.container-fluid {
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.main-div {
+  height: 100vh;
+  background-color: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 2rem;
+}
+
+.main-div h1 {
+  font-size: 2.5rem;
+  color: var(--secondary);
+}
+
+.main-div p {
+  max-width: 600px;
+  margin: 1rem auto;
+  color: var(--text-secondary);
+}
+
+.cta-group {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-cstm-1 {
+  background-color: var(--primary);
+  color: #fff !important;
+}
+
+.btn-cstm-1:hover {
+  background-color: var(--button-hover);
+}
+
+.btn-cstm-2 {
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-cstm-2:hover {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.intro, .services, .comparison, .why, .conclusion {
+  padding: 5rem 2rem;
+  text-align: center;
+  background-color: var(--background);
+}
+
+.services .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background-color: #fff;
+  padding: 2rem;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00000010;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card h3{
+  color: var(--primary);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px #00000020;
+}
+
+.comparison-grid, .why-points {
+  background-color: rgba(245, 245, 245, 0.9);
+  width: 90%;
+  max-width: 1200px;
+  margin: 2rem auto 0 auto;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.comparison-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.comparison-grid > div {
+  flex: 1;
+}
+
+.comparison-grid li, .why-points li {
+  list-style: none;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.without li {
+  color: var(--primary);
+}
+
+.with li {
+  color: #388e3c;
+  font-weight: bold;
+}
+
+
+.why-points {
+  border-left: 4px solid var(--primary);
+  text-align: left;
+}
+
+.why-points li::before {
+  content: "✓";
+  color: var(--primary);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.conclusion {
+  background-color: #fff;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+.alt-login {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.link-login{
+  text-decoration: none;
+  color: #388e3c;
+}
+
+@media (min-width: 768px) {
+    .comparison-grid {
+      flex-direction: row;
+      justify-content: center;
+      gap: 4rem;
+    }
+}

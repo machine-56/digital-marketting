@@ -1,0 +1,93 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Digital Marketing | Home{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<div class="container-fluid">
+
+  <div class="main-div">
+    <div class="content-wrapper">
+      <h1>Elevate Your Business with Digital Marketing</h1>
+      <p>Reach. Engage. Convert. Let your business thrive in the digital age.</p>
+      <div class="cta-group">
+        <a href="{% url 'register_fn' %}" class="btn btn-cstm-1">Get Started</a>
+        <a href="{% url 'login_fn' %}" class="btn btn-cstm-2">Already a Member?</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="intro">
+    <h2>What is Digital Marketing?</h2>
+    <p>Digital marketing is the strategy of reaching your audience online using platforms like search engines, social media, and email to grow your business and build brand awareness.</p>
+    <p>Unlike traditional marketing, it empowers you to connect with the right audience at the right time, offering measurable insights and real-time engagement. Whether it’s driving sales, generating leads, or building lasting relationships, digital marketing opens the door to endless growth opportunities in the digital world.</p>
+  </div>
+  
+  
+  <div class="services">
+    <h2>What We Offer</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>SEO</h3>
+        <p>Optimize your website to rank higher and reach more customers.</p>
+      </div>
+      <div class="card">
+        <h3>Social Media</h3>
+        <p>Engage with your audience through powerful social strategies.</p>
+      </div>
+      <div class="card">
+        <h3>Email Campaigns</h3>
+        <p>Send targeted messages that convert leads into loyal customers.</p>
+      </div>
+      <div class="card">
+        <h3>Content Marketing</h3>
+        <p>Attract and retain with value-driven content creation.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="comparison">
+    <h2>With vs. Without Digital Marketing</h2>
+    <div class="comparison-grid">
+      <div class="without">
+        <h3>Without</h3>
+        <ul>
+          <li>Limited reach</li>
+          <li>High marketing cost</li>
+          <li>No performance tracking</li>
+          <li>Slow growth</li>
+        </ul>
+      </div>
+      <div class="with">
+        <h3>With</h3>
+        <ul>
+          <li>Global visibility</li>
+          <li>Cost-effective strategy</li>
+          <li>Real-time analytics</li>
+          <li>Faster brand growth</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <div class="why">
+    <h2>Why Choose Us</h2>
+    <ul class="why-points">
+      <li>Data-driven decision making</li>
+      <li>Custom marketing plans</li>
+      <li>Experienced professionals</li>
+      <li>Transparent reporting</li>
+    </ul>
+  </div>
+  
+  <div class="conclusion">
+    <h2>Your Move</h2>
+    <p>Your competitors are already adapting. Your audience is online. So… where will you be tomorrow?</p>
+    <a href="{% url 'register_fn' %}" class="btn btn-cstm-1">Let’s Get You Started</a>
+    <p class="alt-login"><a href="{% url 'login_fn' %}" class="link-login">Already with us? Login here</a></p>
+  </div>
+
+</div>
+
+{% endblock %}

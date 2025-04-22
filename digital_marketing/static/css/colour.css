@@ -1,0 +1,13 @@
+:root {
+  --primary: #d32f2f;
+  --secondary: #1a1a1a;
+  --background: #f5f5f5;
+  --text-primary: #333333;
+  --text-secondary: #555555;
+  --button-hover: #ae2525;
+  --divider: #e0e0e0;
+  --highlight: #c0c0c0;
+  --form : #67d8f7;
+  --gradient: linear-gradient(90deg, #d32f2f 0%, #a52a2a 100%);
+}
+
