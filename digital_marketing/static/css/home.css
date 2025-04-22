@@ -140,6 +140,7 @@ body {
 .why-points {
   border-left: 4px solid var(--primary);
   text-align: left;
+  list-style: none;
 }
 
 .why-points li::before {
@@ -160,6 +161,11 @@ body {
 .alt-login {
   margin-top: 1rem;
   font-size: 0.9rem;
+}
+
+.link-login{
+  text-decoration: none;
+  color: #388e3c;
 }
 
 .how-it-works ul, .social-media-advantage ul {
