@@ -1,13 +1,5 @@
 
-body {
-  background-color: var(--background);
-  color: var(--text-primary);
-}
 
-.container-fluid {
-  padding: 0;
-  overflow-x: hidden;
-}
 
 .main-div {
   height: 100vh;
