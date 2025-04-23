@@ -29,7 +29,10 @@
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
               <a class="nav-link {% if request.path == '/ad/' %}active{% endif %}" href="{% url 'admin_home' %}">Home</a>
-              <a class="nav-link {% if request.path == '/ad/approve/' %}active{% endif %}" href="{% url 'approve_users' %}">Approve users</a>
+              <a class="nav-link {% if request.path == '/ad/approve/' %}active{% endif %}" href="{% url 'approve_users' %}">
+                Approve users
+                <span class="notification" {% if new_count == 0 %}hidden{% endif %}>{{new_count}}</span>
+              </a>
               <a class="nav-link" href="{% url 'logout_fn' %}">Log Out</a>
             </div>
           </div>

@@ -8,10 +8,13 @@ from django.utils.crypto import get_random_string
 # Create your views here.
 
 def admin_home(request):
-    return render(request, 'admin_panel/admin_home.html')
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+
+    return render(request, 'admin_panel/admin_home.html', {'new_count' : new_count})
 
 def approve_users(request):
     unapproved_users = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False)
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
 
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
@@ -71,4 +74,4 @@ def approve_users(request):
             messages.error(request, f"{user.username} has been disapproved and notified.")
 
         return redirect('approve_users')
-    return render(request, 'admin_panel/approve_users.html', {'unapproved_users': unapproved_users})
+    return render(request, 'admin_panel/approve_users.html', {'unapproved_users': unapproved_users, 'new_count' : new_count})
