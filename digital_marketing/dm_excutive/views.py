@@ -86,13 +86,12 @@ def exc_change_password(request):
             messages.error(request, 'New password and confirmation do not match.')
             return redirect('change_password')
 
-        # Validate password strength
         if (len(new_password) < 8 or
             not any(char.isupper() for char in new_password) or
             not any(char.isdigit() for char in new_password) or
             not any(char in '!@#$%^&*()_+-=[]{}|;:,.<>?/~' for char in new_password)):
             messages.error(request, 'Password must be at least 8 characters long and contain at least one uppercase letter, one digit, and one special character.')
-            return redirect('change_password')
+            return redirect('exc_change_password')
         
         request.user.set_password(new_password)
         request.user.save()
