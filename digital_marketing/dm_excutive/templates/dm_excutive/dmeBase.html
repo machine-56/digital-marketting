@@ -53,22 +53,22 @@
         <h5 class="text-uppercase mb-4">Menu</h5>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link text-white {% if request.path == '/dme/' %}active{% endif %}" href="{% url 'dme_home' %}">
+            <a class="nav-link text-white {% if request.path == '/exc/' %}active{% endif %}" href="{% url 'dme_home' %}">
               <i class="fas fa-home me-2"></i>Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white {% if request.path == '/dme/leads/' %}active{% endif %}" href="{% url 'view_leads' %}">
+            <a class="nav-link text-white {% if request.path == '/exc/leads/' %}active{% endif %}" href="{% url 'view_leads' %}">
                 <i class="fas fa-user-friends me-2"></i>My Leads
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white {% if request.path == '/dme/attendance/' %}active{% endif %}" href="{% url 'mark_attendance_and_apply_leave' %}">
+            <a class="nav-link text-white {% if request.path == '/exc/attendance/' %}active{% endif %}" href="{% url 'mark_attendance_and_apply_leave' %}">
               <i class="fas fa-calendar-check me-2"></i> Attendance
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white {% if request.path == '/dme/change-password/' %}active{% endif %}" href="{% url 'dme_change_password' %}">
+            <a class="nav-link text-white {% if request.path == '/exc/change-password/' %}active{% endif %}" href="{% url 'dme_change_password' %}">
                 <i class="fas fa-key me-2"></i> Change Password
             </a>
           </li>        

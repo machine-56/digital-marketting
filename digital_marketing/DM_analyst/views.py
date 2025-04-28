@@ -249,7 +249,7 @@ def dma_mark_attendance_and_apply_leave(request):
             )
             messages.success(request, 'Leave request submitted successfully.')
 
-        return redirect('mark_attendance_and_apply_leave')
+        return redirect('dma_mark_attendance_and_apply_leave')
 
     return render(request, 'DM_analyst/attendance.html', {
         'today': today,
