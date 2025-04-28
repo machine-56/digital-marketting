@@ -1,0 +1,45 @@
+{% extends 'business_analyst/baBase.html' %}
+{% load static %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'business_analyst/css/task_list.css' %}">
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Assigned Tasks</h2>
+    
+    {% if tasks %}
+    <div class="row g-4">
+        {% for task in tasks %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">{{ task.name }}</h5>
+                        <p class="card-text"><strong>Start:</strong> {{ task.start_date }}</p>
+                        <p class="card-text"><strong>End:</strong> {{ task.end_date }}</p>
+                        {% if task.is_completed %}
+                        <span class="badge bg-success">Completed</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark">In Progress</span>
+                        {% endif %}
+                        <p class="card-text"><strong>Progress:</strong> <span class="progress-value">{{ task.progress_percentage }}</span>%</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"></div>
+                        </div>
+                    </div>
+                    <a href="{% url 'ba_task_detail' task.id %}" class="btn btn-primary mt-3">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-muted">No tasks assigned.</p>
+    {% endif %}
+</div>
+
+<script src="{% static 'business_analyst/js/progress_bar.js' %}"></script>
+
+{% endblock %}

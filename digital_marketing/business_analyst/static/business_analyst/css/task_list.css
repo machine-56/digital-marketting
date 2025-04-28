@@ -1,0 +1,33 @@
+
+body {
+    background-color: #f9f9f9;
+}
+
+h2 {
+    color: #333;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.card-title {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.btn-primary {
+    background: #d32f2f;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #ae2525;
+}

@@ -1,0 +1,54 @@
+{% extends 'dm_analyst/dmaBase.html' %}
+{% load static %}
+
+{% block title %}Assign Leads{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'dm_analyst/css/assign_leads.css' %}">
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Assign Leads to {{ executive.first_name }} {{ executive.last_name }}</h2>
+
+    {% if leads %}
+        <form method="post">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all"></th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Platform</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lead in leads %}
+                        <tr>
+                            <td><input type="checkbox" name="lead_checkbox" value="{{ lead.id }}"></td>
+                            <td>{{ lead.lead_name }}</td>
+                            <td>{{ lead.email }}</td>
+                            <td>{{ lead.phone }}</td>
+                            <td>{{ lead.platform|title }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% csrf_token %}
+            <button type="submit" class="assign-btn" title="Assign Selected">
+                <i class="fas fa-check"></i>
+            </button>
+        </form>
+    {% else %}
+        <p class="text-center">No Unassigned Leads found.</p>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById('select-all').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('input[name="lead_checkbox"]');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+</script>
+{% endblock %}

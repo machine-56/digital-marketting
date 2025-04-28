@@ -1,20 +1,27 @@
 from django.shortcuts import redirect, render
-from accounts.models import CustomUser
+from accounts.models import CustomUser, Attendance, LeaveRequest
+from business_analyst.models import LeadTask, DailyReport
 from django.contrib import messages
 
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
+from django.db.models import Sum
+from django.db.models.functions import TruncDate
 
 # Create your views here.
 
 def admin_home(request):
     new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
 
-    return render(request, 'admin_panel/admin_home.html', {'new_count' : new_count})
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    return render(request, 'admin_panel/admin_home.html', {'new_count' :new_count, 'leave_count' : leave_count})
 
 def approve_users(request):
     unapproved_users = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False)
     new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
 
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
@@ -43,7 +50,7 @@ def approve_users(request):
             send_mail(
                 subject=subject,
                 message=message,
-                from_email=None,  # Use DEFAULT_FROM_EMAIL from settings
+                from_email=None,
                 recipient_list=[user.email],
                 fail_silently=False,
             )
@@ -74,4 +81,141 @@ def approve_users(request):
             messages.error(request, f"{user.username} has been disapproved and notified.")
 
         return redirect('approve_users')
-    return render(request, 'admin_panel/approve_users.html', {'unapproved_users': unapproved_users, 'new_count' : new_count})
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    return render(request, 'admin_panel/approve_users.html', {'unapproved_users': unapproved_users, 'new_count' : new_count, 'leave_count' : leave_count })
+
+def admin_view_users(request):
+    role_filter = request.GET.get('role')
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+
+    users = CustomUser.objects.filter(role__in=['business_analyst', 'dm_analyst', 'dm_executive'], is_superuser=False)
+
+    if role_filter:
+        users = users.filter(role=role_filter)
+
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    return render(request, 'admin_panel/manage_users.html', {'users': users, 'role_filter': role_filter, 'new_count' : new_count, 'leave_count' : leave_count })
+
+def admin_edit_user(request, id):
+    user = CustomUser.objects.get(id=id)
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+
+    if request.method == 'POST':
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.phone = request.POST.get('phone')
+        user.role = request.POST.get('role')
+        user.gender = request.POST.get('gender')
+        user.company_name = request.POST.get('company_name')
+        user.save()
+        messages.success(request, 'User updated successfully.')
+        return redirect('admin_view_users')
+    
+    return render(request, 'admin_panel/edit_user.html', {'user': user, 'new_count': new_count})
+
+def admin_delete_user(request, id):
+    user = CustomUser.objects.get(id=id)
+    user.delete()
+    messages.success(request, 'User deleted successfully.')
+    return redirect('admin_view_users')
+
+def admin_task_overview(request):
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+
+    tasks = LeadTask.objects.select_related('assigned_to').all()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    return render(request, 'admin_panel/task_overview.html', {'tasks': tasks, 'new_count' : new_count, 'leave_count' : leave_count })
+
+def admin_task_detail(request, id):
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+
+    task = LeadTask.objects.get(id=id)
+    reports = DailyReport.objects.filter(task=task).order_by('-submitted_at')
+
+    lead_data = list(DailyReport.objects.filter(task=task)
+    .annotate(date=TruncDate('submitted_at'))
+    .values('date')
+    .annotate(total_leads=Sum('lead_count'))
+    .order_by('date'))
+
+    return render(request, 'admin_panel/task_detail.html', {
+        'task': task,
+        'reports': reports,
+        'lead_data': list(lead_data),
+        'new_count': new_count
+    })
+
+def assign_lead_task(request):
+
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    business_analysts = CustomUser.objects.filter(role='business_analyst', is_approved=True)
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        target_count = request.POST.get('target_count')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        assigned_to_id = request.POST.get('assigned_to')
+        file = request.FILES.get('file')
+
+        assigned_to = CustomUser.objects.get(id=assigned_to_id)
+
+        lead_task = LeadTask(
+            name=name,
+            description=description,
+            target_count=target_count,
+            start_date=start_date,
+            end_date=end_date,
+            assigned_to=assigned_to,
+            file=file
+        )
+        lead_task.save()
+
+        messages.success(request, 'Lead task assigned successfully.')
+        return redirect('assign_lead_task')
+    return render(request, 'admin_panel/assign_lead_task.html', {'business_analysts': business_analysts, 'new_count' : new_count, 'leave_count' : leave_count })
+
+
+def leave_approval(request):
+    leaves = LeaveRequest.objects.filter(status='pending').select_related('user')
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    return render(request, 'admin_panel/leave_approval.html', {'new_count' : new_count, 'leaves': leaves, 'leave_count': leave_count})
+
+def approve_leave(request, id, action):
+    leave = LeaveRequest.objects.get(id=id)
+    if action == 'approve':
+        leave.status = 'approved'
+    elif action == 'reject':
+        leave.status = 'rejected'
+    leave.save()
+    messages.success(request, f"Leave {leave.status} successfully.")
+    return redirect('leave_approval')
+
+def attendance_overview(request):
+    leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
+    new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
+    role_filter = request.GET.get('role')
+    attendance_records = Attendance.objects.select_related('user')
+
+    if role_filter:
+        attendance_records = attendance_records.filter(user__role=role_filter)
+
+    roles = CustomUser.ROLE_CHOICES  # [('business_analyst', 'Business Analyst'), ...]
+    return render(request, 'admin_panel/attendance_overview.html', {
+        'attendance_records': attendance_records,
+        'roles': roles,
+        'role_filter': role_filter,
+        'leave_count' : leave_count,
+        'new_count' : new_count,
+    })

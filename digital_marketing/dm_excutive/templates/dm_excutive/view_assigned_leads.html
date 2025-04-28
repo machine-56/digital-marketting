@@ -1,0 +1,47 @@
+{% extends 'dm_excutive/dmeBase.html' %}
+{% load static %}
+
+{% block title %}My Leads{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'dm_executive/css/view_leads.css' %}">
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Assigned Leads</h2>
+
+    {% if leads %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Lead Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Platform</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lead in leads %}
+                    <tr>
+                        <td>{{ lead.name }}</td>
+                        <td>{{ lead.email }}</td>
+                        <td>{{ lead.phone }}</td>
+                        <td>{{ lead.platform }}</td>
+                        <td>
+                            {% if lead.is_verified %}
+                                <span class="badge bg-success">Verified</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center">No leads assigned yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

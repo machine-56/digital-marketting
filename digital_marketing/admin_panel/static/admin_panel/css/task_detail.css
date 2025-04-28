@@ -1,0 +1,19 @@
+
+.progress-bar.bg-success {
+  background-color: var(--primary) !important;
+}
+
+.progress-bar.bg-danger {
+  background-color: var(--highlight) !important;
+}
+
+.list-group-item {
+  background-color: var(--background);
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.list-group-item p {
+  margin: 0 0 0.5rem 0;
+}

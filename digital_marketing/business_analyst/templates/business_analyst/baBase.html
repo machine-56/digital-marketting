@@ -58,6 +58,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/ba/tasks/' %}active{% endif %}" href="{% url 'ba_task_list' %}">
+                <i class="fas fa-tasks me-2"></i>My Tasks
+            </a>
+          </li>
+        
+          <li class="nav-item">
             <a class="nav-link text-white" href="{% url 'login_fn' %}">
               <i class="fas fa-sign-out-alt me-2"></i>Logout
             </a>

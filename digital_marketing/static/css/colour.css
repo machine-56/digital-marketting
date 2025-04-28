@@ -8,6 +8,8 @@
   --divider: #e0e0e0;
   --highlight: #c0c0c0;
   --form : #67d8f7;
+  --shadow-medium : #00000065;
+  --shadow-dark : #0000007c;
   --gradient: linear-gradient(90deg, #d32f2f 0%, #a52a2a 100%);
 }
 

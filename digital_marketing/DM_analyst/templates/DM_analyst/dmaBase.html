@@ -58,6 +58,42 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/dm/upload-excel/' %}active{% endif %}" href="{% url 'upload_excel' %}">
+                <i class="fas fa-user-plus me-2"></i> Add Executives
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/dm/view-executives/' %}active{% endif %}" href="{% url 'view_executives' %}">
+                <i class="fas fa-user-tie me-2"></i> View Executives
+            </a>
+          </li>        
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/dm/upload-leads/' %}active{% endif %}" href="{% url 'upload_leads' %}">
+                <i class="fas fa-users me-2"></i> Upload Leads
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/dm/view-leads/' %}active{% endif %}" href="{% url 'dma_view_leads' %}">
+                <i class="fas fa-users me-2"></i> View Leads
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if '/dm/assign-leads/' in request.path %}active{% endif %}" href="{% url 'view_executives' %}">
+                <i class="fas fa-tasks me-2"></i> Assign Leads
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/dm/attendance/' %}active{% endif %}" href="{% url 'dma_mark_attendance_and_apply_leave' %}">
+                <i class="fas fa-calendar-check me-2"></i> Attendance
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/dm/change-password/' %}active{% endif %}" href="{% url 'change_password' %}">
+                <i class="fas fa-key me-2"></i> Change Password
+            </a>
+          </li>        
+        
+          <li class="nav-item">
             <a class="nav-link text-white" href="{% url 'login_fn' %}">
               <i class="fas fa-sign-out-alt me-2"></i>Logout
             </a>

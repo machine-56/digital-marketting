@@ -1,0 +1,33 @@
+
+h3 {
+    color: #1a1a1a;
+    font-weight: 700;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.btn-outline-primary {
+    color: #d32f2f;
+    border-color: #d32f2f;
+}
+
+.btn-outline-primary:hover {
+    background-color: #d32f2f;
+    color: #fff;
+}
+
+.btn-success {
+    background-color: #d32f2f;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #ae2525;
+}

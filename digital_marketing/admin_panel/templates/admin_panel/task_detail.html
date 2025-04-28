@@ -1,0 +1,88 @@
+{% extends 'admin_panel/adminBase.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'admin_panel/css/task_detail.css' %}">
+
+<div class="container mt-4">
+  <h2>{{ task.name }}</h2>
+  <p><strong>Assigned To:</strong> {{ task.assigned_to.first_name }} {{ task.assigned_to.last_name }}</p>
+  <p><strong>Start Date:</strong> {{ task.start_date }}</p>
+  <p><strong>End Date:</strong> {{ task.end_date }}</p>
+  <p><strong>Description:</strong> {{ task.description }}</p>
+
+  <div class="mt-5">
+    <canvas id="leadChart" height="100"></canvas>
+  </div>
+
+  <h4 class="mt-5">Overall Progress</h4>
+  <div class="progress" style="height: 25px;">
+    <div class="progress-bar {% if task.status == 'completed' %}bg-success{% else %}bg-danger{% endif %}" 
+         role="progressbar" style="width: 0%;" id="progressBar{{ task.id }}">
+        {{ task.progress_percentage }}%
+    </div>
+  </div>
+
+  <h4 class="mt-5">Daily Reports</h4>
+  <div class="list-group">
+    {% for report in reports %}
+    <div class="list-group-item mb-3 shadow-sm">
+      <p><strong>Date:</strong> {{ report.submitted_at|date:"Y-m-d H:i" }}</p>
+      <p>{{ report.report_text }}</p>
+      {% if report.report_file %}
+      <a href="{{ report.report_file.url }}" target="_blank">View Attached File</a>
+      {% endif %}
+    </div>
+    {% empty %}
+    <p>No reports submitted yet.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const progress = {{ task.progress_percentage }};
+    const progressBar = document.getElementById("progressBar{{ task.id }}");
+    progressBar.style.width = progress + "%";
+    progressBar.textContent = progress + "%";
+
+    const rawData = {{ lead_data|safe }};
+
+    const labels = rawData.map(item => item.date);
+    const data = rawData.map(item => item.total_leads);
+
+    const ctx = document.getElementById('leadChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Number of Leads',
+          data: data,
+          borderColor: '#d32f2f',
+          backgroundColor: 'rgba(211,47,47,0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            title: { display: true, text: 'Date' },
+            ticks: { autoSkip: false }
+          },
+          y: {
+            title: { display: true, text: 'Leads' },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  });
+</script>
+
+{% endblock %}

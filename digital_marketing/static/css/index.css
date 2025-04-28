@@ -37,9 +37,9 @@ body{
 
 
 .btn-cstm {
-    background-color: var(--primary-red);
+    background-color: var(--primary);
     border: none;
-    color: white;
+    color: white !important;
     padding: 0.6rem 2rem;
     font-weight: 500;
     border-radius: 8px;
@@ -48,7 +48,7 @@ body{
 }
 
 .btn-cstm:hover {
-    background-color: var(--accent-red);
+    background-color: var(--button-hover);
     transform: translateY(-2px);
     box-shadow: var(--shadow-dark);
 }

@@ -1,0 +1,57 @@
+
+table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table a {
+  color: black;
+  text-decoration: none;
+}
+
+table a:hover {
+  text-decoration: underline;
+}
+
+.progress-bar.bg-success {
+  background-color: var(--primary) !important;
+}
+
+.progress-bar.bg-danger {
+  background-color: var(--highlight) !important;
+}
+
+.add_task_div {
+  position: fixed;
+  bottom: 5rem;
+  right: 4rem;
+  z-index: 2;
+}
+.add_task_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 65px;
+  height: 65px;
+  background-color: var(--text-primary);
+  color: white;
+  font-size: 2rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px #00000033;
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+
+.add_task_btn:hover {
+    background-color: var(--text-primary);
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px){
+  .add_task_div {
+      position: fixed;
+      bottom: 4rem;
+      right: 1rem;
+      z-index: 2;
+  }
+}

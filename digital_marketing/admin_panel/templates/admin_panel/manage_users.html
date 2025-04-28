@@ -1,0 +1,49 @@
+{% extends 'admin_panel/adminBase.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'admin_panel/css/manage_users.css' %}">
+
+<div class="container mt-4">
+  <h2>Manage Users</h2>
+
+  <form method="get" class="mb-3 form_main">
+    <select name="role" class="form-select" onchange="this.form.submit()">
+      <option value="">-- All --</option>
+      <option value="business_analyst" {% if role_filter == 'business_analyst' %}selected{% endif %}>Business Analyst</option>
+      <option value="dm_analyst" {% if role_filter == 'dm_analyst' %}selected{% endif %}>DM Analyst</option>
+      <option value="dm_executive" {% if role_filter == 'dm_executive' %}selected{% endif %}>DM Executive</option>
+    </select>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.first_name }} {{ user.last_name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.get_role_display }}</td>
+          <td>
+            <div class="d-flex">
+              <a href="{% url 'admin_edit_user' user.pk %}" class="btn btn-warning btn-sm" style="margin-right: 5px;">Edit</a>
+              <a href="{% url 'admin_delete_user' user.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

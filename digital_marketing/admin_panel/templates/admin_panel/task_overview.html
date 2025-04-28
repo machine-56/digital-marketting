@@ -1,0 +1,57 @@
+{% extends 'admin_panel/adminBase.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'admin_panel/css/task_overview.css' %}">
+
+<div class="container mt-4">
+  <h2>Task Overview</h2>
+  <div class="table-responsive">
+    <table class="table table-striped mt-3">
+      <thead class="table-dark">
+        <tr>
+          <th>Task Name</th>
+          <th>Assigned To</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Progress</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <td><a href="{% url 'admin_task_detail' task.id %}">{{ task.name }}</a></td>
+          <td>{{ task.assigned_to.first_name }} {{ task.assigned_to.last_name }}</td>
+          <td>{{ task.start_date }}</td>
+          <td>{{ task.end_date }}</td>
+          <td>
+              <div class="progress" style="height: 25px;">
+                  <div class="progress-bar" style="background-color: var(--primary); width:0%;" id="progressBar{{ task.id }}">
+                      {{ task.progress_percentage }}%
+                    </div>
+                </div>              
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="add_task_div">
+  <a href="{% url 'assign_lead_task' %}" class="add_task_btn">+</a>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const progressBars = document.querySelectorAll("[id^='progressBar']");
+
+    progressBars.forEach(function(bar) {
+      const progress = parseInt(bar.textContent.trim().replace('%', ''));
+      bar.style.width = progress + "%";
+    });
+  });
+</script>
+
+
+{% endblock %}

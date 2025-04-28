@@ -1,0 +1,16 @@
+
+table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+  
+select.form-select {
+  max-width: 250px;
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+  padding: 0.5rem;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+  

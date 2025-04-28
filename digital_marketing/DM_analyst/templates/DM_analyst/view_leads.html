@@ -1,0 +1,66 @@
+{% extends 'dm_analyst/dmaBase.html' %}
+{% load static %}
+{% block title %}View Leads{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'DM_analyst/css/view_leads.css' %}">
+
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Leads</h2>
+
+    {% if leads %}
+    <form method="post">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle text-center">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select-all"></th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Platform</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lead in leads %}
+                    <tr>
+                        <td>
+                            {% if not lead.is_verified %}
+                                <input type="checkbox" name="lead_checkbox" value="{{ lead.id }}">
+                            {% endif %}
+                        </td>
+                        <td>{{ lead.lead_name }}</td>
+                        <td>{{ lead.email }}</td>
+                        <td>{{ lead.phone }}</td>
+                        <td>{{ lead.platform|title }}</td>
+                        <td>
+                            {% if lead.is_verified %}
+                                <span class="badge bg-success">Verified</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% csrf_token %}
+        <button type="submit" class="assign-btn" title="Verify Selected">
+            <i class="fas fa-check"></i>
+        </button>
+    </form>
+    {% else %}
+        <p class="text-center">No Leads found.</p>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById('select-all').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('input[name="lead_checkbox"]');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+</script>
+{% endblock %}

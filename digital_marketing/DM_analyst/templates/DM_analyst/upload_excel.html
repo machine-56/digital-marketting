@@ -1,0 +1,26 @@
+{% extends 'DM_analyst/dmaBase.html' %}
+{% load static %}
+
+{% block title %}Upload Excel{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'DM_analyst/css/upload_excel.css' %}">
+
+<div class="upload-container">
+    <h2>Upload DM Executives Data</h2>
+    <p>Upload an Excel file with the following columns:</p>
+    <ul>
+        <li>Name</li>
+        <li>Email (unique)</li>
+        <li>Phone (unique)</li>
+        <li>Address</li>
+        <li>Gender</li>
+    </ul>
+
+    <form method="post" enctype="multipart/form-data" class="upload-form">
+        {% csrf_token %}
+        <input class="form-control" type="file" name="excel_file" accept=".xlsx, .xls" required>
+        <button type="submit">Upload</button>
+    </form>
+</div>
+{% endblock %}

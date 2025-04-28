@@ -1,0 +1,29 @@
+@import url(/static/css/colour.css);
+
+form{
+  background-color: white;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+form .form-label{
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+form .form-control, form .form-select, form textarea{
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+  padding: 0.5rem;
+  color: var(--text-primary);
+}
+
+form .form-control:focus, form .form-select:focus, form textarea:focus{
+  border-color: var(--form);
+  box-shadow: 0 0 0 0.2rem rgba(73, 235, 173, 0.25);
+}
+
+
+  

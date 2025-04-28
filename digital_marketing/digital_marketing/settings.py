@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'admin_panel',
     'business_analyst',
     'DM_analyst',
+    'dm_excutive',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,53 @@
+{% extends 'admin_panel/adminBase.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'admin_panel/css/assign_task.css' %}">
+
+<div class="container my-4">
+  <h2 class="mb-4">Assign Lead Task</h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Lead Task Name</label>
+        <input type="text" name="name" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Target (Count)</label>
+        <input type="number" name="target_count" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Start Date</label>
+        <input type="date" name="start_date" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">End Date</label>
+        <input type="date" name="end_date" class="form-control" required>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Description</label>
+        <textarea name="description" rows="4" class="form-control" required></textarea>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Assign To (Business Analyst)</label>
+        <select name="assigned_to" class="form-select" required>
+          <option value="">-- Select Business Analyst --</option>
+          {% for ba in business_analysts %}
+          <option value="{{ ba.id }}">{{ ba.first_name }} {{ ba.last_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">File (Optional)</label>
+        <input type="file" name="file" class="form-control">
+      </div>
+    </div>
+    
+    <div class="text-center my-4">
+        <button type="submit" class="btn btn-cstm">Assign Task</button>
+    </div>
+    
+  </form>
+</div>
+{% endblock %}

@@ -27,6 +27,8 @@ def login_fn(request):
                 return redirect('ba_home')
             elif user.role == 'dm_analyst':
                 return redirect('dma_home')
+            elif user.role == 'dm_executive':
+                return redirect('dme_home')
             else:
                 messages.error(request, "User role is undefined.")
                 return redirect('login_fn')
@@ -63,7 +65,10 @@ def register_fn(request):
         if CustomUser.objects.filter(phone=phone).exists():
             messages.error(request, 'Phone number already registered.')
             return redirect('register_fn')
-
+        
+        if not all([first_name, last_name, username, email, phone, gender, role, company_name, profile_image]):
+            messages.error(request, 'All fields are required.')
+            return redirect('register_fn')
 
         user = CustomUser.objects.create_user(
             username=username,

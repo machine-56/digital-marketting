@@ -1,0 +1,27 @@
+
+h3 {
+    color: #1a1a1a;
+    font-weight: 700;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.btn-success {
+    background-color: #d32f2f;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #ae2525;
+}
+
+.btn-secondary {
+    background-color: #555555;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #333333;
+}

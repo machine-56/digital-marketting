@@ -1,0 +1,32 @@
+
+.form_main{
+  position: absolute;
+  top: 5rem;
+  right: 1rem;
+}
+
+.filter-form select {
+  max-width: 150px;
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+  padding: 0.5rem;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+.table {
+  background-color: white;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: var(--primary);
+  color: white;
+}
+
+.table tbody tr:hover {
+  background-color: var(--highlight);
+}
+  

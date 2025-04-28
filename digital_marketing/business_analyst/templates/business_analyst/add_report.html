@@ -1,0 +1,41 @@
+{% extends 'business_analyst/baBase.html' %}
+{% load static %}
+
+{% block title %}Add Daily Report{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'business_analyst/css/add_report.css' %}">
+
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-sm p-4">
+        <h3>Add Report for: {{ task.name }}</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="report_text" class="form-label">Report Text</label>
+                <textarea name="report_text" id="report_text" class="form-control" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="lead_count" class="form-label">Lead Count</label>
+                <input type="number" name="lead_count" id="lead_count" class="form-control" required>
+            </div>
+            <!-- <div class="mb-3">
+                <label for="progress_percentage" class="form-label">Progress Percentage (%)</label>
+                <input type="number" name="progress_percentage" id="progress_percentage" class="form-control" min="0" max="100" required>
+            </div> -->
+            <div class="mb-3">
+                <label for="report_file" class="form-label">Upload Report File</label>
+                <input type="file" name="report_file" id="report_file" class="form-control" required>
+            </div>
+            {% if error %}
+                <div class="text-danger">{{ error }}</div>
+            {% endif %}
+            <div class="d-flex justify-content-end gap-2">
+                <a href="{% url 'ba_task_detail' task.id %}" class="btn btn-secondary d-flex align-items-center">Cancel</a>
+                <button type="submit" class="btn btn-primary">Submit Report</button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+{% endblock %}

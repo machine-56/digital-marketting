@@ -1,0 +1,35 @@
+{% extends 'dm_analyst/dmaBase.html' %}
+{% load static %}
+
+{% block title %}DM Executives{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'dm_analyst/css/view_executives.css' %}">
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">DM Executives</h2>
+
+    {% if executives %}
+        <div class="row">
+            {% for executive in executives %}
+            <div class="col-md-4">
+                <div class="card executive-card" onclick="location.href='{% url 'assign_leads' executive.id %}'" style="cursor:pointer;">
+                    {% if executive.profile_image %}
+                        <img src="{{ executive.profile_image.url }}" class="card-img-top" alt="Executive Image">
+                    {% else %}
+                        <img src="{% static 'images/default_profile.png' %}" class="card-img-top" alt="Default Image">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ executive.first_name }} {{ executive.last_name }}</h5>
+                        <p class="card-text">{{ executive.email }}</p>
+                        <p class="card-text">{{ executive.phone }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">No Executives found.</p>
+    {% endif %}
+</div>
+{% endblock %}

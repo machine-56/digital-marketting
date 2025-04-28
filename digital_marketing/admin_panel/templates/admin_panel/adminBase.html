@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Aurelius Motors{% endblock %}</title>
+    <title>{% block title %}DM{% endblock %}</title>
     <link rel="shortcut icon" href="{% static 'images/icon-bookmark.png' %}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -18,7 +18,7 @@
   </head>
   <body>
     <!-- navbar -->
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark" style="z-index: 99;">
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'index' %}">
             <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
@@ -33,6 +33,15 @@
                 Approve users
                 <span class="notification" {% if new_count == 0 %}hidden{% endif %}>{{new_count}}</span>
               </a>
+              <a class="nav-link {% if request.path == '/ad/users/' %}active{% endif %}" href="{% url 'admin_view_users' %}">Users</a>
+              <a class="nav-link {% if request.path == '/ad/tasks/' %}active{% endif %}" href="{% url 'admin_task_overview' %}">Tasks</a>
+              <a class="nav-link {% if request.path == '/ad/leaves/' %}active{% endif %}" href="{% url 'leave_approval' %}">
+                Leave Approvals
+                <span class="notification" {% if leave_count == 0 %}hidden{% endif %}>{{ leave_count }}</span>
+              </a>
+      
+              <a class="nav-link {% if request.path == '/ad/attendance/' %}active{% endif %}" href="{% url 'attendance_overview' %}">Attendance</a>
+      
               <a class="nav-link" href="{% url 'logout_fn' %}">Log Out</a>
             </div>
           </div>

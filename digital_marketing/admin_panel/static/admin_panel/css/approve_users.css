@@ -11,11 +11,6 @@ table {
     overflow: hidden;
 }
 
-thead th {
-    background-color: var(--primary-color, #343a40);  /* Use your color palette */
-    color: #fff;
-}
-
 .btn-sm {
     padding: 0.25rem 0.5rem;
     font-size: 0.85rem;
