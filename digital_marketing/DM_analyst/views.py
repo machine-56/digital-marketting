@@ -132,7 +132,7 @@ def assign_leads(request, executive_id):
         return redirect('view_executives')
 
     unassigned_leads = Lead.objects.filter(is_assigned=False, is_verified = True)
-    return render(request, 'dm_analyst/assign_leads.html', {
+    return render(request, 'DM_analyst/assign_leads.html', {
         'executive': executive,
         'leads': unassigned_leads
     })
@@ -251,7 +251,7 @@ def dma_mark_attendance_and_apply_leave(request):
 
         return redirect('mark_attendance_and_apply_leave')
 
-    return render(request, 'dm_analyst/attendance.html', {
+    return render(request, 'DM_analyst/attendance.html', {
         'today': today,
         'leaves_today': leaves_today
     })
@@ -283,4 +283,4 @@ def change_password(request):
         messages.success(request, 'Password changed successfully. Please log in again.')
         return redirect('login_fn')
 
-    return render(request, 'dm_analyst/change_password.html')
+    return render(request, 'DM_analyst/change_password.html')

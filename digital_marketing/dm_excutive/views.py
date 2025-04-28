@@ -18,18 +18,6 @@ def view_leads(request):
     return render(request, 'dm_excutive/view_assigned_leads.html', {'leads': leads})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 def mark_attendance_and_apply_leave(request):
     today = date.today()
 
