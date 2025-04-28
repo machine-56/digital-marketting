@@ -5,6 +5,7 @@ from accounts.views import logout_fn
 urlpatterns = [
     path('', views.admin_home, name='admin_home'),
     path('approve/', views.approve_users, name='approve_users'),
+    path('validate_user/', views.validate_user_field, name='validate_user_field'),
     path('users/', views.admin_view_users, name='admin_view_users'),
     path('users/edit/<int:id>/', views.admin_edit_user, name='admin_edit_user'),
     path('users/delete/<int:id>/', views.admin_delete_user, name='admin_delete_user'),

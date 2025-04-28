@@ -5,7 +5,9 @@
 <link rel="stylesheet" href="{% static 'admin_panel/css/task_overview.css' %}">
 
 <div class="container mt-4">
-  <h2>Task Overview</h2>
+  <h2 class="text-center">Task Overview</h2>
+
+  {% if tasks %}
   <div class="table-responsive">
     <table class="table table-striped mt-3">
       <thead class="table-dark">
@@ -28,20 +30,24 @@
               <div class="progress" style="height: 25px;">
                   <div class="progress-bar" style="background-color: var(--primary); width:0%;" id="progressBar{{ task.id }}">
                       {{ task.progress_percentage }}%
-                    </div>
-                </div>              
+                  </div>
+              </div>              
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+  {% else %}
+  <p class="text-center mt-4 text-muted">No tasks available.</p>
+  {% endif %}
 </div>
 
 <div class="add_task_div">
   <a href="{% url 'assign_lead_task' %}" class="add_task_btn">+</a>
 </div>
 
+{% if tasks %}
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const progressBars = document.querySelectorAll("[id^='progressBar']");
@@ -52,6 +58,6 @@
     });
   });
 </script>
-
+{% endif %}
 
 {% endblock %}

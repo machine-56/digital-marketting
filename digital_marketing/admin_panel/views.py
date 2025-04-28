@@ -7,6 +7,10 @@ from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from django.db.models import Sum
 from django.db.models.functions import TruncDate
+from django.http import JsonResponse
+
+from datetime import date
+from django.db.models import Q
 
 # Create your views here.
 
@@ -17,6 +21,20 @@ def admin_home(request):
     leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
     leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
     return render(request, 'admin_panel/admin_home.html', {'new_count' :new_count, 'leave_count' : leave_count})
+
+def validate_user_field(request):
+    field = request.GET.get('field')
+    value = request.GET.get('value')
+    exclude_id = request.GET.get('exclude_id')
+
+    filters = {field: value}
+    queryset = CustomUser.objects.filter(**filters)
+
+    if exclude_id:
+        queryset = queryset.exclude(id=exclude_id)
+
+    available = not queryset.exists()
+    return JsonResponse({'available': available})
 
 def approve_users(request):
     unapproved_users = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False)
@@ -105,18 +123,35 @@ def admin_edit_user(request, id):
     leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
 
     if request.method == 'POST':
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.email = request.POST.get('email')
-        user.phone = request.POST.get('phone')
-        user.role = request.POST.get('role')
-        user.gender = request.POST.get('gender')
-        user.company_name = request.POST.get('company_name')
+
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        role = request.POST.get('role')
+        gender = request.POST.get('gender')
+        company_name = request.POST.get('company_name')
+
+        if not all([first_name, last_name, username, email, phone, role, gender, company_name]):
+            messages.error(request, 'All fields are required.')
+            return redirect('admin_edit_user', id=id)
+
+
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = username
+        user.email = email
+        user.phone = phone
+        user.role = role
+        user.gender = gender
+        user.company_name = company_name
         user.save()
+
         messages.success(request, 'User updated successfully.')
         return redirect('admin_view_users')
     
-    return render(request, 'admin_panel/edit_user.html', {'user': user, 'new_count': new_count})
+    return render(request, 'admin_panel/edit_user.html', {'user': user, 'new_count': new_count, 'leave_count' : leave_count})
 
 def admin_delete_user(request, id):
     user = CustomUser.objects.get(id=id)
@@ -203,19 +238,31 @@ def approve_leave(request, id, action):
     return redirect('leave_approval')
 
 def attendance_overview(request):
+    today = date.today()
+
     leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
     new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
     role_filter = request.GET.get('role')
-    attendance_records = Attendance.objects.select_related('user')
+    attendance_records = Attendance.objects.filter(date__lte=today)
 
     if role_filter:
         attendance_records = attendance_records.filter(user__role=role_filter)
 
-    roles = CustomUser.ROLE_CHOICES  # [('business_analyst', 'Business Analyst'), ...]
+    leaves = LeaveRequest.objects.filter(
+        status='approved',
+        from_date__lte=today
+    ).exclude(to_date__lt=today)
+
+    if role_filter:
+        leaves = leaves.filter(user__role=role_filter)
+
+    roles = CustomUser.ROLE_CHOICES
+
     return render(request, 'admin_panel/attendance_overview.html', {
         'attendance_records': attendance_records,
+        'leaves': leaves,
         'roles': roles,
         'role_filter': role_filter,
-        'leave_count' : leave_count,
-        'new_count' : new_count,
+        'leave_count': leave_count,
+        'new_count': new_count,
     })

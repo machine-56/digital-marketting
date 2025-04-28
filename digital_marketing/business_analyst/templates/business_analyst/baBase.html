@@ -62,6 +62,16 @@
                 <i class="fas fa-tasks me-2"></i>My Tasks
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/ba/attendance/' %}active{% endif %}" href="{% url 'ba_mark_attendance_and_apply_leave' %}">
+              <i class="fas fa-calendar-check me-2"></i> Attendance
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/ba/change-password/' %}active{% endif %}" href="{% url 'ba_change_password' %}">
+                <i class="fas fa-key me-2"></i> Change Password
+            </a>
+          </li>
         
           <li class="nav-item">
             <a class="nav-link text-white" href="{% url 'login_fn' %}">

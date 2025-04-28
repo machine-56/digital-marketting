@@ -1,32 +1,44 @@
 {% extends 'admin_panel/adminBase.html' %}
 {% load static %}
 {% block content %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'admin_panel/css/edit_user.css' %}">
+<link rel="stylesheet" href="{% static 'admin_panel/css/edit_user.css' %}">
+<script src="{% static 'admin_panel/js/validate_user.js' %}"></script>
 
 <div class="container mt-4">
-  <h2 class="mb-4">Edit User</h2>
-
+  <h2>Edit User</h2>
   <form method="post">
     {% csrf_token %}
-    <div class="row g-3">
-      <div class="col-md-6 col-sm-12">
+    <div class="row">
+      <!-- First Name -->
+      <div class="col-md-6 col-sm-12 mb-3">
         <label>First Name</label>
         <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}" required>
       </div>
-      <div class="col-md-6 col-sm-12">
+      <!-- Last Name -->
+      <div class="col-md-6 col-sm-12 mb-3">
         <label>Last Name</label>
         <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}" required>
       </div>
-      <div class="col-md-6 col-sm-12">
+      <!-- Email -->
+      <div class="col-md-6 col-sm-12 mb-3">
         <label>Email</label>
-        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+        <input type="email" name="email" id="email" class="form-control" value="{{ user.email }}" required onblur="validateField('email', this.value, 'emailError', {{ user.id }})">
+        <span id="emailError" class="text-danger"></span>
       </div>
-      <div class="col-md-6 col-sm-12">
+      <!-- Phone -->
+      <div class="col-md-6 col-sm-12 mb-3">
         <label>Phone</label>
-        <input type="text" name="phone" class="form-control" value="{{ user.phone }}">
+        <input type="text" name="phone" id="phone" class="form-control" value="{{ user.phone }}" required onblur="validateField('phone', this.value, 'phoneError', {{ user.id }})">
+        <span id="phoneError" class="text-danger"></span>
       </div>
-      <div class="col-md-6 col-sm-12">
+      <!-- Username -->
+      <div class="col-md-6 col-sm-12 mb-3">
+        <label>Username</label>
+        <input type="text" name="username" id="username" class="form-control" value="{{ user.username }}" required onblur="validateField('username', this.value, 'usernameError', {{ user.id }})">
+        <span id="usernameError" class="text-danger"></span>
+      </div>
+      <!-- Role -->
+      <div class="col-md-6 col-sm-12 mb-3">
         <label>Role</label>
         <select name="role" class="form-select" required>
           <option value="business_analyst" {% if user.role == 'business_analyst' %}selected{% endif %}>Business Analyst</option>
@@ -34,7 +46,8 @@
           <option value="dm_executive" {% if user.role == 'dm_executive' %}selected{% endif %}>DM Executive</option>
         </select>
       </div>
-      <div class="col-md-6 col-sm-12">
+      <!-- Gender -->
+      <div class="col-md-6 col-sm-12 mb-3">
         <label>Gender</label>
         <select name="gender" class="form-select">
           <option value="male" {% if user.gender == 'male' %}selected{% endif %}>Male</option>
@@ -42,7 +55,8 @@
           <option value="other" {% if user.gender == 'other' %}selected{% endif %}>Other</option>
         </select>
       </div>
-      <div class="col-12">
+      <!-- Company Name -->
+      <div class="col-md-6  col-sm-12 mb-3">
         <label>Company Name</label>
         <input type="text" name="company_name" class="form-control" value="{{ user.company_name }}">
       </div>
