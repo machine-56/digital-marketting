@@ -8,8 +8,8 @@ from accounts.models import Attendance
 from datetime import date
 
 # Create your views here.
-def dme_home(request):
-    return render(request, 'dm_excutive/dme_home.html')
+def exc_home(request):
+    return render(request, 'dm_excutive/exc_home.html')
 
 
 def view_leads(request):
@@ -72,7 +72,7 @@ def mark_attendance_and_apply_leave(request):
         'leaves_today': leaves_today
     })
 
-def dme_change_password(request):
+def exc_change_password(request):
     if request.method == 'POST':
         current_password = request.POST.get('current_password')
         new_password = request.POST.get('new_password')

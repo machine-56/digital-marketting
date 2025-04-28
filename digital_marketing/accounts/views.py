@@ -28,7 +28,7 @@ def login_fn(request):
             elif user.role == 'dm_analyst':
                 return redirect('dma_home')
             elif user.role == 'dm_executive':
-                return redirect('dme_home')
+                return redirect('exc_home')
             else:
                 messages.error(request, "User role is undefined.")
                 return redirect('login_fn')

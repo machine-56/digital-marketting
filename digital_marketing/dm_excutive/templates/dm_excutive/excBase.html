@@ -53,7 +53,7 @@
         <h5 class="text-uppercase mb-4">Menu</h5>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link text-white {% if request.path == '/exc/' %}active{% endif %}" href="{% url 'dme_home' %}">
+            <a class="nav-link text-white {% if request.path == '/exc/' %}active{% endif %}" href="{% url 'exc_home' %}">
               <i class="fas fa-home me-2"></i>Dashboard
             </a>
           </li>
@@ -68,7 +68,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white {% if request.path == '/exc/change-password/' %}active{% endif %}" href="{% url 'dme_change_password' %}">
+            <a class="nav-link text-white {% if request.path == '/exc/change-password/' %}active{% endif %}" href="{% url 'exc_change_password' %}">
                 <i class="fas fa-key me-2"></i> Change Password
             </a>
           </li>        
