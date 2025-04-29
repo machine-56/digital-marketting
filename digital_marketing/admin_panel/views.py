@@ -129,11 +129,10 @@ def admin_edit_user(request, id):
         username = request.POST.get('username')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
-        role = request.POST.get('role')
         gender = request.POST.get('gender')
         company_name = request.POST.get('company_name')
 
-        if not all([first_name, last_name, username, email, phone, role, gender, company_name]):
+        if not all([first_name, last_name, username, email, phone, gender, company_name]):
             messages.error(request, 'All fields are required.')
             return redirect('admin_edit_user', id=id)
 
@@ -143,7 +142,6 @@ def admin_edit_user(request, id):
         user.username = username
         user.email = email
         user.phone = phone
-        user.role = role
         user.gender = gender
         user.company_name = company_name
         user.save()
