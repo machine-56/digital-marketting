@@ -325,4 +325,4 @@ def dma_attendance_leave_summary(request):
         'leave_requests': leave_requests,
     }
 
-    return render(request, 'dm_analyst/dma_attendance_summary.html', context)
+    return render(request, 'DM_analyst/dma_attendance_summary.html', context)
