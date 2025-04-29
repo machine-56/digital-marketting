@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 from accounts.models import Attendance
-from datetime import date
+from datetime import date, timedelta
 
 # Create your views here.
 def dma_home(request):
@@ -284,3 +284,45 @@ def change_password(request):
         return redirect('login_fn')
 
     return render(request, 'DM_analyst/change_password.html')
+
+def dma_attendance_leave_summary(request):
+
+    user = request.user
+    attendance_records = Attendance.objects.filter(user=user)
+    leave_requests = LeaveRequest.objects.filter(user=user)
+    first_attendance = attendance_records.order_by('date').first()
+    first_leave = leave_requests.order_by('from_date').first()
+
+    if first_attendance and first_leave:
+        start_date = min(first_attendance.date, first_leave.from_date)
+    elif first_attendance:
+        start_date = first_attendance.date
+    elif first_leave:
+        start_date = first_leave.from_date
+    else:
+        start_date = date.today()
+
+    today = date.today()
+
+    all_dates = []
+    current_date = start_date
+    while current_date <= today:
+        all_dates.append(current_date)
+        current_date += timedelta(days=1)
+
+    records = []
+    for d in all_dates:
+        attendance = attendance_records.filter(date=d).first()
+        leave = leave_requests.filter(from_date__lte=d, to_date__gte=d).first()
+        records.append({
+            'date': d,
+            'status': attendance.status if attendance else None,
+            'leave': leave,
+        })
+
+    context = {
+        'records': records,
+        'leave_requests': leave_requests,
+    }
+
+    return render(request, 'dm_analyst/dma_attendance_summary.html', context)

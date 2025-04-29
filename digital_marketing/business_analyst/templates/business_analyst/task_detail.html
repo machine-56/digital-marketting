@@ -12,6 +12,8 @@
         <p><strong>Start Date:</strong> {{ task.start_date }}</p>
         <p><strong>End Date:</strong> {{ task.end_date }}</p>
         <p><strong>Description:</strong> {{ task.description }}</p>
+        <p><strong>Target Lead Count:</strong> {{ task.target_count }}</p>
+        
         <p>
             <strong>Status:</strong>
             {% if task.is_completed %}
@@ -20,15 +22,37 @@
                 <span class="badge bg-warning text-dark">In Progress</span>
             {% endif %}
         </p>
-        <p><strong>Progress:</strong> <span class="progress-value">{{ task.progress_percentage }}</span>%</p>
+
+        <p>
+            <strong>Progress:</strong> <span class="progress-value">{{ task.progress_percentage }}</span>%
+        </p>
+
         <div class="progress mb-3">
             <div class="progress-bar" role="progressbar"></div>
         </div>
 
+        {% if task.submitted_on %}
+        <p><strong>Submitted On:</strong> {{ task.submitted_on }}</p>
+        {% endif %}
+
+        {% if task.file %}
+        <p><strong>Related File:</strong> <a href="{{ task.file.url }}" download>Download</a></p>
+        {% endif %}
+
+        <p><strong>Created At:</strong> {{ task.created_at|date:"Y-m-d H:i" }}</p>
+
+
+        <h5 class="mt-5">Leads Progress</h5>
+        <div class="chart-container mt-3">
+            <canvas id="leadChart"></canvas>
+        </div>
+          
+
+
         <hr>
 
-        <h5>Daily Reports</h5>
         {% if reports %}
+        <h5>Daily Reports</h5>
         <ul class="list-group mb-3">
             {% for report in reports %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -40,7 +64,6 @@
             </li>
             {% endfor %}
         </ul>
-        
         {% else %}
         <p class="text-muted">No reports submitted yet.</p>
         {% endif %}
@@ -53,5 +76,47 @@
         {% endif %}
     </div>
 </div>
+
 <script src="{% static 'business_analyst/js/progress_bar.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const rawData = {{ lead_data|safe }};
+    if (rawData.length > 0) {
+        const labels = rawData.map(item => item.date);
+        const data = rawData.map(item => item.total_leads);
+
+        const ctx = document.getElementById('leadChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Leads',
+                    data: data,
+                    borderColor: '#d32f2f',
+                    backgroundColor: 'rgba(211,47,47,0.2)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Date' },
+                        ticks: { autoSkip: false }
+                    },
+                    y: {
+                        title: { display: true, text: 'Leads' },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+
+
 {% endblock %}

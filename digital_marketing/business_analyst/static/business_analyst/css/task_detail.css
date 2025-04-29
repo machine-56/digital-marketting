@@ -31,3 +31,20 @@ h3 {
 .btn-success:hover {
     background-color: #ae2525;
 }
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: 768px) {
+    .main{
+        padding: 5px;
+    }
+}

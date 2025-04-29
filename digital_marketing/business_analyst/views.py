@@ -5,7 +5,7 @@ from accounts.models import Attendance, LeaveRequest
 
 from django.utils import timezone
 from django.contrib import messages
-from datetime import date
+from datetime import date, timedelta
 
 # Create your views here.
 def ba_home(request):
@@ -19,8 +19,21 @@ def ba_task_list(request):
 
 def ba_task_detail(request, task_id):
     task = LeadTask.objects.get(id=task_id, assigned_to=request.user)   
-    reports = task.reports.order_by('-submitted_at')
-    return render(request, 'business_analyst/task_detail.html', {'task': task, 'reports': reports})
+    reports = task.reports.order_by('submitted_at')  # Order by oldest first for graph
+
+    lead_data = [
+        {
+            "date": report.submitted_at.strftime("%Y-%m-%d"),
+            "total_leads": report.lead_count
+        }
+        for report in reports
+    ]
+
+    return render(request, 'business_analyst/task_detail.html', {
+        'task': task,
+        'reports': reports,
+        'lead_data': lead_data,
+    })
 
 
 
@@ -133,7 +146,7 @@ def ba_mark_attendance_and_apply_leave(request):
 
         return redirect('mark_attendance_and_apply_leave')
 
-    return render(request, 'dm_excutive/attendance.html', {
+    return render(request, 'business_analyst/ba_attendance.html', {
         'today': today,
         'leaves_today': leaves_today
     })
@@ -167,3 +180,45 @@ def ba_change_password(request):
 
     return render(request, 'business_analyst/change_password.html')
 
+
+def ba_attendance_leave_summary(request):
+    
+    user = request.user
+    attendance_records = Attendance.objects.filter(user=user)
+    leave_requests = LeaveRequest.objects.filter(user=user)
+    first_attendance = attendance_records.order_by('date').first()
+    first_leave = leave_requests.order_by('from_date').first()
+
+    if first_attendance and first_leave:
+        start_date = min(first_attendance.date, first_leave.from_date)
+    elif first_attendance:
+        start_date = first_attendance.date
+    elif first_leave:
+        start_date = first_leave.from_date
+    else:
+        start_date = date.today()
+
+    today = date.today()
+
+    all_dates = []
+    current_date = start_date
+    while current_date <= today:
+        all_dates.append(current_date)
+        current_date += timedelta(days=1)
+
+    records = []
+    for d in all_dates:
+        attendance = attendance_records.filter(date=d).first()
+        leave = leave_requests.filter(from_date__lte=d, to_date__gte=d).first()
+        records.append({
+            'date': d,
+            'status': attendance.status if attendance else None,
+            'leave': leave,
+        })
+
+    context = {
+        'records': records,
+        'leave_requests': leave_requests,
+    }
+
+    return render(request, 'business_analyst/ba_attendance_summary.html', context)

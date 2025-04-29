@@ -11,6 +11,27 @@
   <p><strong>End Date:</strong> {{ task.end_date }}</p>
   <p><strong>Description:</strong> {{ task.description }}</p>
 
+  <p><strong>Target Lead Count:</strong> {{ task.target_count }}</p>
+  <p><strong>Completion Status:</strong>
+    {% if task.is_completed %}
+    <span class="badge bg-success">Completed</span>
+    {% else %}
+    <span class="badge bg-warning text-dark">In Progress</span>
+    {% endif %}
+  </p>
+  <p><strong>Submitted On:</strong>
+    {% if task.submitted_on %}
+    {{ task.submitted_on }}
+    {% else %}
+    <em>Not yet submitted</em>
+    {% endif %}
+  </p>
+  <p><strong>Created At:</strong> {{ task.created_at|date:"Y-m-d H:i" }}</p>
+  {% if task.file %}
+  <p><strong>Related File:</strong> <a href="{{ task.file.url }}" download>Download</a></p>
+  {% endif %}
+
+
   <div class="mt-5">
     <canvas id="leadChart" height="100"></canvas>
   </div>
@@ -40,49 +61,52 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
-    const progress = {{ task.progress_percentage }};
-    const progressBar = document.getElementById("progressBar{{ task.id }}");
-    progressBar.style.width = progress + "%";
-    progressBar.textContent = progress + "%";
+      const progress = {{ task.progress_percentage }};
+      const progressBar = document.getElementById("progressBar{{ task.id }}");
+      progressBar.style.width = progress + "%";
+      progressBar.textContent = progress + "%";
 
-    const rawData = {{ lead_data|safe }};
-
-    const labels = rawData.map(item => item.date);
-    const data = rawData.map(item => item.total_leads);
-
-    const ctx = document.getElementById('leadChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Number of Leads',
-          data: data,
-          borderColor: '#d32f2f',
-          backgroundColor: 'rgba(211,47,47,0.2)',
-          fill: true,
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: {
-            title: { display: true, text: 'Date' },
-            ticks: { autoSkip: false }
-          },
-          y: {
-            title: { display: true, text: 'Leads' },
-            beginAtZero: true
-          }
-        }
+      const rawData = {{ lead_data|safe }};
+  
+      if (rawData.length > 0) {
+          const labels = rawData.map(item => item.date);
+          const data = rawData.map(item => item.total_leads);
+  
+          const ctx = document.getElementById('leadChart').getContext('2d');
+          new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: labels,
+                  datasets: [{
+                      label: 'Number of Leads',
+                      data: data,
+                      borderColor: '#d32f2f',
+                      backgroundColor: 'rgba(211,47,47,0.2)',
+                      fill: true,
+                      tension: 0.3
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  scales: {
+                      x: {
+                          title: { display: true, text: 'Date' },
+                          ticks: { autoSkip: false }
+                      },
+                      y: {
+                          title: { display: true, text: 'Leads' },
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
       }
-    });
   });
-</script>
+  </script>
+  
+  
 
 {% endblock %}

@@ -68,6 +68,11 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == '/exc/attendance/view/' %}active{% endif %}" href="{% url 'exc_attendance_leave_summary' %}">
+              <i class="fas fa-calendar-check me-2"></i>My Attendance
+            </a>
+          </li>          
+          <li class="nav-item">
             <a class="nav-link text-white {% if request.path == '/exc/change-password/' %}active{% endif %}" href="{% url 'exc_change_password' %}">
                 <i class="fas fa-key me-2"></i> Change Password
             </a>

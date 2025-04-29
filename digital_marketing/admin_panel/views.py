@@ -168,25 +168,31 @@ def admin_task_overview(request):
     leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
     return render(request, 'admin_panel/task_overview.html', {'tasks': tasks, 'new_count' : new_count, 'leave_count' : leave_count })
 
+
 def admin_task_detail(request, id):
+    task = LeadTask.objects.get(id=id)
+    reports = DailyReport.objects.filter(task=task).order_by('submitted_at')
+
+    # Build simple list: [{date: "2025-04-27", total_leads: 5}, ...]
+    lead_data = [
+        {
+            "date": report.submitted_at.strftime("%Y-%m-%d"),
+            "total_leads": report.lead_count
+        }
+        for report in reports
+    ]
+
     new_count = CustomUser.objects.filter(is_approved=False, status=0, is_superuser=False).count()
     leave_count = LeaveRequest.objects.filter(status='pending').select_related('user').count()
-
-    task = LeadTask.objects.get(id=id)
-    reports = DailyReport.objects.filter(task=task).order_by('-submitted_at')
-
-    lead_data = list(DailyReport.objects.filter(task=task)
-    .annotate(date=TruncDate('submitted_at'))
-    .values('date')
-    .annotate(total_leads=Sum('lead_count'))
-    .order_by('date'))
 
     return render(request, 'admin_panel/task_detail.html', {
         'task': task,
         'reports': reports,
-        'lead_data': list(lead_data),
-        'new_count': new_count
+        'lead_data': lead_data,
+        'new_count': new_count,
+        'leave_count': leave_count,
     })
+
 
 def assign_lead_task(request):
 

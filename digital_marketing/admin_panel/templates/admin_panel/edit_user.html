@@ -37,15 +37,7 @@
         <input type="text" name="username" id="username" class="form-control" value="{{ user.username }}" required onblur="validateField('username', this.value, 'usernameError', {{ user.id }})">
         <span id="usernameError" class="text-danger"></span>
       </div>
-      <!-- Role -->
-      <div class="col-md-6 col-sm-12 mb-3">
-        <label>Role</label>
-        <select name="role" class="form-select" required>
-          <option value="business_analyst" {% if user.role == 'business_analyst' %}selected{% endif %}>Business Analyst</option>
-          <option value="dm_analyst" {% if user.role == 'dm_analyst' %}selected{% endif %}>DM Analyst</option>
-          <option value="dm_executive" {% if user.role == 'dm_executive' %}selected{% endif %}>DM Executive</option>
-        </select>
-      </div>
+
       <!-- Gender -->
       <div class="col-md-6 col-sm-12 mb-3">
         <label>Gender</label>
@@ -56,7 +48,7 @@
         </select>
       </div>
       <!-- Company Name -->
-      <div class="col-md-6  col-sm-12 mb-3">
+      <div class="col-12 mb-3">
         <label>Company Name</label>
         <input type="text" name="company_name" class="form-control" value="{{ user.company_name }}">
       </div>
