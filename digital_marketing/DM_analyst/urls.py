@@ -11,7 +11,7 @@ urlpatterns = [
     path('view-leads/', views.dma_view_leads, name='dma_view_leads'),
     path('attendance/', views.dma_mark_attendance_and_apply_leave, name='dma_mark_attendance_and_apply_leave'),
     path('change-password/', views.change_password, name='change_password'),
-    path('dma/attendance/view/', views.dma_attendance_leave_summary, name='dma_attendance_leave_summary'),
+    path('attendance/view/', views.dma_attendance_leave_summary, name='dma_attendance_leave_summary'),
 
     path('logout/', logout_fn, name='logout_fn')
 
